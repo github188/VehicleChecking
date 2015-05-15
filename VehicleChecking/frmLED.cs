@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,6 +22,8 @@ namespace VehicleChecking
         System.Media.SoundPlayer player;
         System.Timers.Timer timer = new System.Timers.Timer();
         bool onGet = false;
+        List<Label> lblList = new List<Label>();
+
         public frmLED()
         {
             InitializeComponent();
@@ -36,12 +39,14 @@ namespace VehicleChecking
             this.Width = option.Width;
             this.Height = option.Height;
             this.BackColor = Color.FromArgb(option.BackgroundColor);
-            
+            this.TopMost = true;
           
         }
 
         void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
+            if (onGet)
+                return;
             try
             {
                 if (!onGet)
@@ -57,7 +62,7 @@ namespace VehicleChecking
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 onGet = false;
             }
             finally
@@ -66,11 +71,13 @@ namespace VehicleChecking
             }
         }
 
+
+
         private void frmLED_Load(object sender, EventArgs e)
         {
             try
             {
-                timer.Interval = 1000 * 60 * option.ServerIntelval;
+                timer.Interval = 1000 *60 * option.ServerIntelval;
                 timer.Enabled = true;
                 timer.Start();
 
@@ -93,34 +100,44 @@ namespace VehicleChecking
             {
                 if (e.ProgressPercentage == 99)
                 {
-                    MessageBox.Show(this, e.UserState.ToString());
                     EventLog.WriteEntry("VehicleCheck", e.UserState.ToString());
                     worker.CancelAsync();
                     return;
                 }
 
                 Label lblVehicle = new Label();
-                lblVehicle.Height = this.Height / 10;
+                lblVehicle.Height = this.Height / 8;
                 lblVehicle.Dock = DockStyle.Top;
                 lblVehicle.TextAlign = ContentAlignment.MiddleCenter;
                 lblVehicle.AutoSize = false;
                 lblVehicle.Text = e.UserState.ToString();
-                if (lblVehicle.Text.Trim() == "-")
-                    return;
                 lblVehicle.ForeColor = Color.FromArgb(option.NormalColor);
                 if (option.FontFamily.Trim() != string.Empty)
                     lblVehicle.Font = new FontConverter().ConvertFromString(option.FontFamily) as Font;
+
+                if (lblVehicle.Text.Trim() == "-")//去除无效车辆
+                    return;
+
                 if (CheckBlackList(e.UserState.ToString()))
                 {
                     lblVehicle.ForeColor = Color.FromArgb(option.AlarmColor);
-                    player.Play();
+                    try
+                    {
+                        player.Play();
+                    }
+                    catch { }
                 }
 
-                if (this.Controls.Count >= 10)
-                    this.Controls.RemoveAt(0);
+                lblList.Add(lblVehicle);
+
+                if (lblList.Count>8)
+                {
+                    this.Controls.Remove(lblList[0]);
+                    lblList.Remove(lblList[0]);
+                }
                 this.Controls.Add(lblVehicle);
                 lblVehicle.BringToFront();
-                GC.Collect(0);
+           
             }
             catch (Exception ex)
             {
@@ -130,32 +147,41 @@ namespace VehicleChecking
 
         private bool CheckBlackList(string vehNo)
         {
+
             if (vehNo.StartsWith("新"))
             {
                 return true;
             }
-            string sql = "select count(*) from BlackList where VehNo='{0}'";
-            SqlConnection conn = new SqlConnection(connstring);
-            int count = 0;
-            try
-            {
-                SqlCommand cmd = new SqlCommand(string.Format(sql, vehNo));
-                cmd.Connection = conn;
-                conn.Open();
-                count = (int)cmd.ExecuteScalar();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-            if (count > 0)
+
+            if (Program.BlackList.Contains(vehNo))
                 return true;
             else
                 return false;
+
+            #region old code for db read
+            //string sql = "select count(*) from BlackList where VehNo='{0}'";
+            //SqlConnection conn = new SqlConnection(connstring);
+            //int count = 0;
+            //try
+            //{
+            //    SqlCommand cmd = new SqlCommand(string.Format(sql, "冀GUC708"));
+            //    cmd.Connection = conn;
+            //    conn.Open();
+            //    count = (int)cmd.ExecuteScalar();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
+            //finally
+            //{
+            //    conn.Close();
+            //}
+            //if (count > 0)
+            //    return true;
+            //else
+            //    return false;
+            #endregion
         }
 
         void worker_DoWork(object sender, DoWorkEventArgs e)

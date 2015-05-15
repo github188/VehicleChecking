@@ -11,16 +11,17 @@ using System.Xml;
 
 namespace VehicleChecking
 {
-
+    
     public class TcpServer
     {
         private TcpListener tcpListener;
         private Thread listenThread;
         private bool isStart = true;
-
+        private SettingOption option;
         public TcpServer()
         {
-            this.tcpListener = new TcpListener(IPAddress.Any, 5196);
+            option = SettingOption.Load();
+            this.tcpListener = new TcpListener(IPAddress.Parse(option.LocalIp), option.LocalPort);
             this.listenThread = new Thread(new ThreadStart(ListenForClients));
             listenThread.IsBackground = true;
             this.listenThread.Start();
@@ -121,8 +122,9 @@ namespace VehicleChecking
                     packLength = TcpServer.ReverseBytes(BitConverter.ToUInt32(message, 4));
                     long version = TcpServer.ReverseBytes(BitConverter.ToUInt32(message, 8));
                     long command = TcpServer.ReverseBytes(BitConverter.ToUInt32(message, 12));
-
-                    if (command == 111 || command == 211 || command == 212 || command == 213 || command == 214)
+                    System.Diagnostics.Debug.WriteLine(command);
+                    //if (command == 111 || command == 211 || command == 212 || command == 213 || command == 214)
+                    if (command == 213)
                     {
                         long xmlLen = TcpServer.ReverseBytes(BitConverter.ToUInt32(message, 16));
                         byte[] xmlData = new byte[xmlLen];

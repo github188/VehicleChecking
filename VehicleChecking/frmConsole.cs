@@ -56,5 +56,22 @@ namespace VehicleChecking
             frmBlackList frm = new frmBlackList();
             frm.ShowDialog(this);
         }
+
+        private void frmConsole_Load(object sender, EventArgs e)
+        {
+            IMOSHelper helper = new IMOSHelper();
+            try
+            {
+                if (helper.IMOS_Login())
+                {
+                    helper.GetBlackList();
+                    helper.IMOS_Logout();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, "黑名单获取失败，请修改设置，并重新启动应用程序！");
+            }
+        }
     }
 }

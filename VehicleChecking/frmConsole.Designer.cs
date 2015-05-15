@@ -89,6 +89,7 @@
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(23, 37);
             this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Visible = false;
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // frmConsole
@@ -102,6 +103,7 @@
             this.MaximizeBox = false;
             this.Name = "frmConsole";
             this.Text = "控制台";
+            this.Load += new System.EventHandler(this.frmConsole_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);

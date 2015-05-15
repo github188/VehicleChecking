@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using VehicleChecking.IMOS;
+using Newtonsoft.Json;
 
 namespace VehicleChecking
 {
@@ -86,8 +87,8 @@ namespace VehicleChecking
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-                return false;
+                throw new Exception(ex.Message);
+                /*return false;*/
             }
             return true;
         }
@@ -132,31 +133,65 @@ namespace VehicleChecking
         {
             UTF8Encoding encoder = new UTF8Encoding();
             List<VEHICLE_BLACKLIST_S> list = sdkManager.getBlacklist();
-            string sqlClear = "DELETE * FROM BlackList";
-            SqlConnection conn = new SqlConnection(connstring);
-            conn.Open();
-            SqlTransaction tran = conn.BeginTransaction();
-            try
+            if (list == null)
+                return;
+            Program.BlackList.Clear();
+
+            foreach (VEHICLE_BLACKLIST_S vehInfo in list)
             {
-                SqlCommand cmd = new SqlCommand(sqlClear, conn, tran);
-                cmd.ExecuteNonQuery();
-                
-                foreach (VEHICLE_BLACKLIST_S vehInfo in list)
+                string vehno = encoder.GetString(vehInfo.szLicensePlate).Replace("\0", "").Trim();
+                if (vehno != string.Empty)
                 {
-                    cmd.CommandText = "insert into blacklist(vehno) values('" + encoder.GetString(vehInfo.szLicensePlate) + "')";
-                    cmd.ExecuteNonQuery();
+                    Program.BlackList.Add(vehno);
                 }
-                tran.Commit();
             }
-            catch
-            {
-                tran.Rollback();
-                conn.Close();
-            }
-            finally
-            {
-                conn.Close();
-            }
+
+            #region old code for write file
+            //string path = AppDomain.CurrentDomain.BaseDirectory;
+            //path = System.IO.Path.Combine(path, "blacklist.json");
+
+            //System.IO.FileStream stream;
+            //stream = System.IO.File.Create(path);
+            //System.IO.StreamWriter writer = new System.IO.StreamWriter(stream);
+            //writer.Write(JsonConvert.SerializeObject(lst));
+            //writer.Flush();
+            //writer.Close();
+            //stream.Dispose();
+            #endregion
+
+            #region old code for write db file
+
+            //string sqlClear = "DELETE FROM BlackList";
+            //SqlConnection conn = new SqlConnection(connstring);
+            //conn.Open();
+            //SqlTransaction tran = conn.BeginTransaction();
+            //try
+            //{
+            //    SqlCommand cmd = new SqlCommand(sqlClear, conn, tran);
+            //    cmd.ExecuteNonQuery();
+                
+            //    foreach (VEHICLE_BLACKLIST_S vehInfo in list)
+            //    {
+            //        string vehno = encoder.GetString(vehInfo.szLicensePlate).Replace("\0", "").Trim();
+            //        if (vehno != string.Empty)
+            //        {
+            //            cmd.CommandText = "insert into blacklist(vehno) values('" + vehno + "')";
+            //            cmd.ExecuteNonQuery();
+            //        }
+            //    }
+            //    tran.Commit();
+            //    System.Diagnostics.Debug.WriteLine("blacklist ok");
+            //}
+            //catch
+            //{
+            //    tran.Rollback();
+            //    conn.Close();
+            //}
+            //finally
+            //{
+            //    conn.Close();
+            //}
+            #endregion
         }
     }
 }

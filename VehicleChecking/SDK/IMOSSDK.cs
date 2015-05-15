@@ -1879,7 +1879,7 @@ namespace VehicleChecking.IMOS
         public static extern UInt32 IMOS_LoginEx(String strUserLoginName, String strPassword, String srvIpAddr, String cltIpAddr, IntPtr ptrSDKLoginInfo);
 
         [DllImport("imos_sdk.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        public static extern UInt32 IMOS_QueryVehicleBlacklistList(ref USER_LOGIN_ID_INFO_S pstUserLogIDInfo, UInt32 pstQueryCondition, ref QUERY_PAGE_INFO_S pstQueryPageInfo, IntPtr ptrRspPage, IntPtr pstVehicleBlacklistList);
+        public static extern UInt32 IMOS_QueryVehicleBlacklistList(ref USER_LOGIN_ID_INFO_S pstUserLogIDInfo, ref COMMON_QUERY_CONDITION_S pstQueryCondition, ref QUERY_PAGE_INFO_S pstQueryPageInfo, IntPtr ptrRspPage, IntPtr pstVehicleBlacklistList);
 
         [DllImport("xp_frame.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern UInt32 IMOS_PlaySound(ref USER_LOGIN_ID_INFO_S pstUserLoginIDInfo, byte[] pcChannelCode);

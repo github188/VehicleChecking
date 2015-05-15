@@ -94,24 +94,26 @@ namespace VehicleChecking.IMOS
         {
             IntPtr ptrVehList = IntPtr.Zero;
             IntPtr ptrRspPage = IntPtr.Zero;
+            //IntPtr pstQueryCondition = IntPtr.Zero;
             try
             {
                 UInt32 ulRet = 0;
                 UInt32 ulBeginNum = 0;
                 UInt32 ulTotalNum = 0;
 
-                ptrVehList = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VEHICLE_BLACKLIST_S)) * 30);
+                ptrVehList = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VEHICLE_BLACKLIST_S))*30);
                 ptrRspPage = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(RSP_PAGE_INFO_S)));
 
                 RSP_PAGE_INFO_S stRspPageInfo;
                 List<VEHICLE_BLACKLIST_S> list = new List<VEHICLE_BLACKLIST_S>();
                 QUERY_PAGE_INFO_S stPageInfo = new QUERY_PAGE_INFO_S();
+                COMMON_QUERY_CONDITION_S pstQueryCondition = new COMMON_QUERY_CONDITION_S();
                 do
                 {
                     stPageInfo.ulPageFirstRowNumber = ulBeginNum;
                     stPageInfo.ulPageRowNum = 30;
                     stPageInfo.bQueryCount = 1;
-                    ulRet = IMOSSDK.IMOS_QueryVehicleBlacklistList(ref stLoginInfo.stUserLoginIDInfo, 0, ref stPageInfo, ptrRspPage, ptrVehList);
+                    ulRet = IMOSSDK.IMOS_QueryVehicleBlacklistList(ref stLoginInfo.stUserLoginIDInfo, ref pstQueryCondition, ref stPageInfo, ptrRspPage, ptrVehList);
                   
                     if (0 != ulRet)
                     {
@@ -138,6 +140,11 @@ namespace VehicleChecking.IMOS
             {
                 return null;
             }
+            finally
+            {
+                Marshal.FreeHGlobal(ptrVehList);
+                Marshal.FreeHGlobal(ptrRspPage);
+            }
         }
 
         /// <summary>
@@ -162,6 +169,7 @@ namespace VehicleChecking.IMOS
                 RSP_PAGE_INFO_S stRspPageInfo;
                 List<ORG_RES_QUERY_ITEM_S> list = new List<ORG_RES_QUERY_ITEM_S>();
                 QUERY_PAGE_INFO_S stPageInfo = new QUERY_PAGE_INFO_S();
+             
                 do
                 {
                     stPageInfo.ulPageFirstRowNumber = ulBeginNum;
