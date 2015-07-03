@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Runtime.InteropServices;
@@ -14,6 +15,8 @@ namespace VehicleChecking
     {
 
         string connstring = System.Configuration.ConfigurationManager.AppSettings["conn"];
+
+        private static string PATH_CUSTOM_BLACKLIST = "black.txt";
 
         private SettingOption setting;
         /// <summary>
@@ -146,7 +149,24 @@ namespace VehicleChecking
                 }
             }
 
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            path = System.IO.Path.Combine(path, PATH_CUSTOM_BLACKLIST);
+
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.StreamReader reader = System.IO.File.OpenText(path);
+                string json = reader.ReadToEnd();
+                string[] strCustomerBlackList = json.Split(';');
+                for (int i = 0; i < strCustomerBlackList.Length; i++)
+                {
+                    Program.BlackList.Add(strCustomerBlackList[i].Replace("\r","").Replace("\n","").Trim());
+                }
+                reader.Close();
+                reader.Dispose();
+            }
+
             #region old code for write file
+
             //string path = AppDomain.CurrentDomain.BaseDirectory;
             //path = System.IO.Path.Combine(path, "blacklist.json");
 
@@ -157,6 +177,7 @@ namespace VehicleChecking
             //writer.Flush();
             //writer.Close();
             //stream.Dispose();
+
             #endregion
 
             #region old code for write db file
@@ -169,7 +190,7 @@ namespace VehicleChecking
             //{
             //    SqlCommand cmd = new SqlCommand(sqlClear, conn, tran);
             //    cmd.ExecuteNonQuery();
-                
+
             //    foreach (VEHICLE_BLACKLIST_S vehInfo in list)
             //    {
             //        string vehno = encoder.GetString(vehInfo.szLicensePlate).Replace("\0", "").Trim();
@@ -191,6 +212,7 @@ namespace VehicleChecking
             //{
             //    conn.Close();
             //}
+
             #endregion
         }
     }
