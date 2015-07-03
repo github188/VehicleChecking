@@ -162,7 +162,7 @@ namespace VehicleChecking
                     Program.BlackList.Add(strCustomerBlackList[i].Replace("\r","").Replace("\n","").Trim());
                 }
                 reader.Close();
-                reader.Dispose();
+                reader.Dispose(); 
             }
 
             #region old code for write file
