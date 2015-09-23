@@ -181,6 +181,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="black.txt" />
     <Content Include="BlackList.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

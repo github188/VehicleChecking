@@ -148,6 +148,9 @@ namespace VehicleChecking
         private bool CheckBlackList(string vehNo)
         {
 
+            if (vehNo.Trim() == string.Empty)
+                return false;
+
             if (vehNo.StartsWith("新"))
             {
                 return true;
@@ -156,7 +159,16 @@ namespace VehicleChecking
             if (Program.BlackList.Contains(vehNo))
                 return true;
             else
+            {
+                foreach (string vehCheck in Program.BlackList)
+                {
+                    if (vehCheck.Trim() == string.Empty)
+                        continue;
+                    if (vehNo.Contains(vehCheck))
+                        return true;
+                }
                 return false;
+            }
 
             #region old code for db read
             //string sql = "select count(*) from BlackList where VehNo='{0}'";

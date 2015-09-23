@@ -152,17 +152,25 @@ namespace VehicleChecking
             string path = AppDomain.CurrentDomain.BaseDirectory;
             path = System.IO.Path.Combine(path, PATH_CUSTOM_BLACKLIST);
 
-            if (System.IO.File.Exists(path))
+            try
             {
-                System.IO.StreamReader reader = System.IO.File.OpenText(path);
-                string json = reader.ReadToEnd();
-                string[] strCustomerBlackList = json.Split(';');
-                for (int i = 0; i < strCustomerBlackList.Length; i++)
+
+                if (System.IO.File.Exists(path))
                 {
-                    Program.BlackList.Add(strCustomerBlackList[i].Replace("\r","").Replace("\n","").Trim());
+                    System.IO.StreamReader reader = System.IO.File.OpenText(path);
+                    string json = reader.ReadToEnd();
+                    string[] strCustomerBlackList = json.Split(';');
+                    for (int i = 0; i < strCustomerBlackList.Length; i++)
+                    {
+                        Program.BlackList.Add(strCustomerBlackList[i].Replace("\r", "").Replace("\n", "").Trim());
+                    }
+                    reader.Close();
+                    reader.Dispose();
                 }
-                reader.Close();
-                reader.Dispose(); 
+            }
+            catch
+            {
+                
             }
 
             #region old code for write file
