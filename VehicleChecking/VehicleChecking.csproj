@@ -104,6 +104,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConstDefine.cs" />
     <Compile Include="frmBlackList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +136,7 @@
     <Compile Include="SDK\SdkManager.cs" />
     <Compile Include="SettingOption.cs" />
     <Compile Include="TcpServer.cs" />
+    <Compile Include="Vehinfo.cs" />
     <EmbeddedResource Include="frmBlackList.resx">
       <DependentUpon>frmBlackList.cs</DependentUpon>
     </EmbeddedResource>

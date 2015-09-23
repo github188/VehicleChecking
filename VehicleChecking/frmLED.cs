@@ -105,12 +105,17 @@ namespace VehicleChecking
                     return;
                 }
 
+                Vehinfo info = e.UserState as Vehinfo;
+
+                if (info == null || !info.IsMatched)
+                    return;
+
                 Label lblVehicle = new Label();
                 lblVehicle.Height = this.Height / 8;
                 lblVehicle.Dock = DockStyle.Top;
                 lblVehicle.TextAlign = ContentAlignment.MiddleCenter;
                 lblVehicle.AutoSize = false;
-                lblVehicle.Text = e.UserState.ToString();
+                lblVehicle.Text = info.CarPlate;
                 lblVehicle.ForeColor = Color.FromArgb(option.NormalColor);
                 if (option.FontFamily.Trim() != string.Empty)
                     lblVehicle.Font = new FontConverter().ConvertFromString(option.FontFamily) as Font;
@@ -118,7 +123,30 @@ namespace VehicleChecking
                 if (lblVehicle.Text.Trim() == "-")//去除无效车辆
                     return;
 
-                if (CheckBlackList(e.UserState.ToString()))
+                switch (info.PlateColor)
+                {
+                    case ConstDefine.PlateColorBlack:
+                        lblVehicle.BackColor = Color.Black;
+                        break;
+                    case ConstDefine.PlateColorBlue:
+                        lblVehicle.BackColor = Color.Blue;
+                        break;
+                    case ConstDefine.PlateColorGreen:
+                        lblVehicle.BackColor = Color.Green;
+                        break;
+                    case ConstDefine.PlateColorYellow:
+                        lblVehicle.BackColor = Color.Yellow;
+                        break;
+                    case ConstDefine.PlateColorWhite:
+                        lblVehicle.BackColor = Color.White;
+                        break;
+                    case ConstDefine.PlateColorOther:
+                    default:
+                        lblVehicle.BackColor = Color.Black;
+                        break;
+                }
+
+                if (CheckBlackList(info.CarPlate))
                 {
                     lblVehicle.ForeColor = Color.FromArgb(option.AlarmColor);
                     try

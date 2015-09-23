@@ -7,7 +7,7 @@ namespace VehicleChecking
 {
     static class Program
     {
-        public static Queue<string> VehicleCheckingQueue;
+        public static Queue<Vehinfo> VehicleCheckingQueue;
         public static List<string> BlackList;
         /// <summary>
         /// 应用程序的主入口点。
@@ -15,7 +15,7 @@ namespace VehicleChecking
         [STAThread]
         static void Main()
         {
-            VehicleCheckingQueue = new Queue<string>();
+            VehicleCheckingQueue = new Queue<Vehinfo>();
             BlackList = new List<string>();
 
             Application.EnableVisualStyles();

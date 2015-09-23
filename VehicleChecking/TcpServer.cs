@@ -143,17 +143,24 @@ namespace VehicleChecking
                         //转换字符串并去除结束标记
                         string vehxml = encoder.GetString(xmlData).Replace("\0", "").Replace("\r\n","");
                         //搜索字符串
-                        Regex reg = new Regex(@"<CarPlate\>(.*?)\<\/CarPlate\>");
-                        Match match = reg.Match(vehxml);
-                        if (match.Success)
+
+                        Vehinfo vehInfo = new Vehinfo(vehxml);
+
+                        //Regex reg = new Regex(@"<CarPlate\>(.*?)\<\/CarPlate\>");
+                        //Match match = reg.Match(vehxml);
+                        //if (match.Success)
+                        //{
+                        //    string vehNo = match.Value.Replace(@"<CarPlate>", "").Replace(@"</CarPlate>", "");
+                        //    if (vehNo.Trim() != string.Empty)
+                        //    {
+                        //        Program.VehicleCheckingQueue.Enqueue(vehNo.Trim());
+                        //        //System.Diagnostics.Debug.WriteLine(vehNo.Trim());
+                        //    }
+                        //} 
+                        if (vehInfo.IsMatched)
                         {
-                            string vehNo = match.Value.Replace(@"<CarPlate>", "").Replace(@"</CarPlate>", "");
-                            if (vehNo.Trim() != string.Empty)
-                            {
-                                Program.VehicleCheckingQueue.Enqueue(vehNo.Trim());
-                                //System.Diagnostics.Debug.WriteLine(vehNo.Trim());
-                            }
-                        }                        
+                            Program.VehicleCheckingQueue.Enqueue(vehInfo);
+                        }                       
                     }
 
                    // packData = new byte[packLength];
