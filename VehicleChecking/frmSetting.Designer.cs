@@ -69,6 +69,8 @@
             this.txtSoundFile = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtValidText = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -78,7 +80,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(427, 426);
+            this.btnOK.Location = new System.Drawing.Point(429, 453);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 3;
@@ -89,7 +91,7 @@
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(510, 426);
+            this.btnCancel.Location = new System.Drawing.Point(512, 453);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 4;
@@ -99,6 +101,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtValidText);
+            this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.lblFontFamily);
             this.groupBox1.Controls.Add(this.lblBackground);
             this.groupBox1.Controls.Add(this.lblAlarm);
@@ -117,7 +121,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(22, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(560, 174);
+            this.groupBox1.Size = new System.Drawing.Size(560, 191);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "LED显示";
@@ -276,7 +280,7 @@
             this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.txtLocalIp);
             this.groupBox2.Controls.Add(this.label13);
-            this.groupBox2.Location = new System.Drawing.Point(22, 193);
+            this.groupBox2.Location = new System.Drawing.Point(22, 209);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(273, 160);
             this.groupBox2.TabIndex = 1;
@@ -331,7 +335,7 @@
             this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Controls.Add(this.txtServerAddress);
             this.groupBox3.Controls.Add(this.label16);
-            this.groupBox3.Location = new System.Drawing.Point(316, 193);
+            this.groupBox3.Location = new System.Drawing.Point(316, 209);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(267, 160);
             this.groupBox3.TabIndex = 5;
@@ -435,7 +439,7 @@
             this.groupBox4.Controls.Add(this.btnChoiceSound);
             this.groupBox4.Controls.Add(this.txtSoundFile);
             this.groupBox4.Controls.Add(this.label19);
-            this.groupBox4.Location = new System.Drawing.Point(19, 359);
+            this.groupBox4.Location = new System.Drawing.Point(19, 375);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(563, 55);
             this.groupBox4.TabIndex = 2;
@@ -483,18 +487,36 @@
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(543, 321);
+            this.label10.Location = new System.Drawing.Point(543, 337);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(24, 21);
             this.label10.TabIndex = 66;
             this.label10.Text = "min";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // label12
+            // 
+            this.label12.Location = new System.Drawing.Point(0, 152);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(75, 21);
+            this.label12.TabIndex = 46;
+            this.label12.Text = "无效车文字";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtValidText
+            // 
+            this.txtValidText.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.txtValidText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtValidText.Location = new System.Drawing.Point(81, 154);
+            this.txtValidText.Name = "txtValidText";
+            this.txtValidText.Size = new System.Drawing.Size(174, 21);
+            this.txtValidText.TabIndex = 47;
+            // 
             // frmSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(597, 457);
+            this.ClientSize = new System.Drawing.Size(599, 484);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -562,5 +584,7 @@
         private System.Windows.Forms.TextBox txtServerInterval;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtValidText;
+        private System.Windows.Forms.Label label12;
     }
 }

@@ -120,30 +120,37 @@ namespace VehicleChecking
                 if (option.FontFamily.Trim() != string.Empty)
                     lblVehicle.Font = new FontConverter().ConvertFromString(option.FontFamily) as Font;
 
-                if (lblVehicle.Text.Trim() == "-")//去除无效车辆
-                    return;
-
-                switch (info.PlateColor)
+                if (lblVehicle.Text.Trim() == "-" && option.ValidText.Trim()!=string.Empty) //去除无效车辆 
                 {
-                    case ConstDefine.PlateColorBlack:
-                        lblVehicle.BackColor = Color.Black;
-                        break;
-                    case ConstDefine.PlateColorBlue:
-                        lblVehicle.BackColor = Color.Blue;
-                        break;
-                    case ConstDefine.PlateColorGreen:
-                        lblVehicle.BackColor = Color.Green;
-                        break;
-                    case ConstDefine.PlateColorYellow:
-                        lblVehicle.BackColor = Color.Yellow;
-                        break;
-                    case ConstDefine.PlateColorWhite:
-                        lblVehicle.BackColor = Color.White;
-                        break;
-                    case ConstDefine.PlateColorOther:
-                    default:
-                        lblVehicle.BackColor = Color.Black;
-                        break;
+                    lblVehicle.Text = option.ValidText;
+                    return;
+                }
+                //switch (info.PlateColor)
+                //{
+                //    case ConstDefine.PlateColorBlack:
+                //        lblVehicle.BackColor = Color.Black;
+                //        break;
+                //    case ConstDefine.PlateColorBlue:
+                //        lblVehicle.BackColor = Color.Blue;
+                //        break;
+                //    case ConstDefine.PlateColorGreen:
+                //        lblVehicle.BackColor = Color.Green;
+                //        break;
+                //    case ConstDefine.PlateColorYellow:
+                //        lblVehicle.BackColor = Color.Yellow;
+                //        break;
+                //    case ConstDefine.PlateColorWhite:
+                //        lblVehicle.BackColor = Color.White;
+                //        break;
+                //    case ConstDefine.PlateColorOther:
+                //    default:
+                //        lblVehicle.BackColor = Color.Black;
+                //        break;
+                //}
+
+                if (info.PlateColor == ConstDefine.PlateColorYellow)
+                {
+                    lblVehicle.ForeColor = Color.Yellow;
                 }
 
                 if (CheckBlackList(info.CarPlate))

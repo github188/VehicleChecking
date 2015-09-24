@@ -204,7 +204,7 @@ namespace VehicleChecking
                 MessageBox.Show(this, "黑名单服务器获取时间间隔格式不正确，请重新输入");
                 return;
             }
-
+            option.ValidText = txtValidText.Text;
             option.ServerUsername = txtUserName.Text;
             option.ServerPassword = txtPassword.Text;
             option.SoundPath = txtSoundFile.Text;

@@ -45,6 +45,7 @@ namespace VehicleChecking
         #region Sound Info
 
         public string SoundPath { get; set; }
+        public string ValidText { get; set; }
 
         #endregion
 
